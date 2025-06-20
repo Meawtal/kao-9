@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Soft Exploding Heart</title>
+  <style>
+    html, body {
+      margin: 0;
+      overflow: hidden;
+      background: #000;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+<!-- 🎵 เพลงอัตโนมัติ -->
+<audio id="bg-music" autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+  Your browser does not support the audio tag.
+</audio>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let W, H;
+let particles = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+window.onresize = resize;
+resize();
+
+// รูปหัวใจจากสมการ
+function pointOnHeart(t) {
+  return {
+    x: 160 * Math.pow(Math.sin(t), 3),
+    y: - (130 * Math.cos(t) - 50 * Math.cos(2*t) - 20 * Math.cos(3*t) - 10 * Math.cos(4*t))
+  };
+}
+
+class Particle {
+  constructor() {
+    const t = Math.random() * 2 * Math.PI;
+    const p = pointOnHeart(t);
+    this.x = W / 2 + p.x;
+    this.y = H / 2 + p.y;
+    this.vx = (Math.random() - 0.5) * 1.5; // 👈 กระจายน้อยลง
+    this.vy = (Math.random() - 0.5) * 1.5;
+    this.size = Math.random() * 2 + 1;
+    this.life = 60 + Math.random() * 30;
+    this.color = `rgba(255, 0, 0, ${Math.random() * 0.8 + 0.2})`;
+ // ❤️ แดงล้วน
+  }
+
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.life--;
+  }
+
+  draw() {
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function createParticles(amount = 2) {
+  for (let i = 0; i < amount; i++) {
+    particles.push(new Particle());
+  }
+}
+
+function animate() {
+  ctx.fillStyle = 'rgba(0,0,0,0.1)';
+  ctx.fillRect(0, 0, W, H);
+
+  createParticles(2); // 👈 เพิ่มทีละน้อย อ่อนนุ่ม
+
+  particles.forEach((p, i) => {
+    p.update();
+    p.draw();
+    if (p.life <= 0) particles.splice(i, 1);
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+// ป้องกัน Chrome ไม่เล่นเพลงจนกด
+window.addEventListener('click', () => {
+  document.getElementById('bg-music').play();
+});
+</script>
+</body>
+</html>

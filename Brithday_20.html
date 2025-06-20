@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>myfriiend</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #fef9f4;
+      text-align: center;
+      margin: 20;
+      padding: 20px;
+      
+    }
+
+    .carousel {
+      perspective: 1000px;
+      margin-bottom: 20px;
+    }
+
+    .book {
+      width: 300px;
+      height: 400px;
+      margin: 0 auto;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 1s;
+    }
+
+    .page {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      backface-visibility: hidden;
+      background: white;
+      border: 2px solid #c4b8b2;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .page.back {
+      transform: rotateY(180deg);
+    }
+
+    .flipped {
+      transform: rotateY(180deg);
+    }
+
+    img {
+  max-width: 100%;
+  max-height: 380px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 25px;
+}
+
+    .kao2 {
+      max-width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-top: 25px;
+    }
+
+    button {
+        background-color: gray;
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        border-radius: 8px;
+        padding: 6px;
+        border: none;
+        cursor: pointer;
+        transition: backgound 0.3s;
+        
+}
+
+    button:hover {
+      background-color: #ff4757;
+      padding: 10px;
+
+    }
+
+    
+  </style>
+</head>
+<body>
+  <div class="carousel">
+    <div class="book" id="book">
+      <div class="page front">
+        
+        <img src="myfriiend.jpg" alt="Memory 1">
+      </div>
+      <div class="page back">
+        <h2>dear 9</h2>
+        <p>สวัสดี 9 อายุ 20 แล้ว รู้สึกไงบ้าง สนุกไหม แต่ช่วงนี้ก็ขอให้สนุกไว้ คำอวยพรนี้ไม่มีคำอวยพร  ก็ไม่มีอะไรมาก ถ้าอยากคุยก็ทักมาได้เดี่ยวจะทักไปถ้ามีเรื่องคุยจะโทรไปกวน ที่นั่นอาจจะยุ่งเข้าใจได้ อย่าลืมกันล่ะ ไว้เจอกันในที่เดิม
+        </p>
+        <img src="kao.jpg" alt="m2" class="kao2">
+      </div>
+    </div>
+  </div>
+  <button onclick="flipBook()">CliCk mE</button>
+
+  
+
+  <script>
+    function flipBook() {
+      document.getElementById("book").classList.toggle("flipped");
+    }
+    
+  </script>
+</body>
+</html>
